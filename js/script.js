@@ -17,18 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function saveButtonState() {
 	btnArray.forEach((btn, index) => {
-		localStorage.setItem(
+		sessionStorage.setItem(
 			`btnState${index}`,
 			`${btn.classList.contains('checked')}`
 		);
 	});
-	localStorage.setItem('start', start); // Сохраняем прогресс
+	sessionStorage.setItem('start', start); // Сохраняем прогресс
 }
 
 function loadButtonState() {
 	btnArray.forEach((btn, index) => {
-		const isChecked = localStorage.getItem(`btnState${index}`) === 'true';
-		console.log(localStorage.getItem(`btnState${index}`));
+		const isChecked = sessionStorage.getItem(`btnState${index}`) === 'true';
+		console.log(sessionStorage.getItem(`btnState${index}`));
 		if (isChecked) {
 			const rainLine = rain.querySelector(`.line-${btn.value}`);
 			rainLine.classList.remove('none');
@@ -49,27 +49,27 @@ function saveProgress() {
 		: lake.classList.contains('lake-sm')
 		? 'lake-sm'
 		: '';
-	localStorage.setItem('lakeSize', lakeClass);
-	localStorage.setItem('rainbow', `${!rainbow.classList.contains('none')}`);
-	localStorage.setItem('grassland', `${!grassland.classList.contains('none')}`);
-	localStorage.setItem('stones', `${stones.classList.contains('none')}`);
+	sessionStorage.setItem('lakeSize', lakeClass);
+	sessionStorage.setItem('rainbow', `${!rainbow.classList.contains('none')}`);
+	sessionStorage.setItem('grassland', `${!grassland.classList.contains('none')}`);
+	sessionStorage.setItem('stones', `${stones.classList.contains('none')}`);
 }
 
-// Восстановление состояния других элементов из LocalStorage
+// Восстановление состояния других элементов из sessionStorage
 function loadProgress() {
-	const lakeSize = localStorage.getItem('lakeSize');
+	const lakeSize = sessionStorage.getItem('lakeSize');
 	if (lakeSize) lake.classList.add(lakeSize);
 
-	const isRainbowVisible = localStorage.getItem('rainbow') === 'true';
-	const isGrasslandVisible = localStorage.getItem('grassland') === 'true';
-	const areStonesHidden = localStorage.getItem('stones') === 'true';
+	const isRainbowVisible = sessionStorage.getItem('rainbow') === 'true';
+	const isGrasslandVisible = sessionStorage.getItem('grassland') === 'true';
+	const areStonesHidden = sessionStorage.getItem('stones') === 'true';
 
 	if (isRainbowVisible) rainbow.classList.remove('none');
 	if (isGrasslandVisible) grassland.classList.remove('none');
 	if (areStonesHidden) stones.classList.add('none');
 
 	// Восстанавливаем прогресс
-	start = parseInt(localStorage.getItem('start')) || 0;
+	start = parseInt(sessionStorage.getItem('start')) || 0;
 	document.querySelector('.message').textContent = start;
 }
 
